@@ -7,8 +7,12 @@ const h = canvas.height;
 ctx.lineWidth = 5;
 ctx.imageSmoothingEnabled = false;
 let pressed = false;
+let foreground = "black";
+let background = "white";
 
 canvas.addEventListener("mousedown", (e) => {
+  ctx.fillStyle = foreground;
+  ctx.strokeStyle = foreground;
   const mode = new FormData(form).get("mode");
   switch (mode) {
     case "line":
@@ -22,6 +26,10 @@ canvas.addEventListener("mousedown", (e) => {
       pressed = true;
       break;
     case "roundBrush":
+      pressed = true;
+      break;
+    case "eraser":
+      ctx.fillStyle = background;
       pressed = true;
       break;
   }
@@ -42,6 +50,13 @@ canvas.addEventListener("mousemove", (e) => {
       ctx.fill();
       ctx.closePath();
       break;
+    case "eraser":
+      if (!pressed) return;
+      ctx.beginPath();
+      ctx.ellipse(e.offsetX, e.offsetY, 5,5,Math.PI / 4, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.closePath();
+      break;
   }
 });
 
@@ -56,6 +71,10 @@ canvas.addEventListener("mouseup", (e) => {
       pressed = false;
       break;
     case "roundBrush":
+      pressed = false;
+      break;
+    case "eraser":
+      ctx.fillStyle = foreground;
       pressed = false;
       break;
   }
