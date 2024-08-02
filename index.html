@@ -7,8 +7,22 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Paint</h1>
-    <script src="src/main.js" type="module"></script>
+    <form>
+      <fieldset>
+        <legend>Select the mode:</legend>
+        <div>
+          <input type="radio" id="line" name="mode" value="line" checked />
+          <label for="line">line</label>
+        </div>
+
+        <div>
+          <input type="radio" id="bucket" name="mode" value="bucket" />
+          <label for="bucket">bucket</label>
+        </div>
+      </fieldset>
+    </form>
+
     <canvas width="500" height="500"></canvas>
+    <script src="src/main.js" type="module"></script>
   </body>
 </html>
