@@ -10,7 +10,16 @@ let pressed = false;
 let foreground = "black";
 let background = "white";
 
+document.querySelector("input#foreground").addEventListener("change", (e) => {
+  foreground = e.target.value;
+});
+
+document.querySelector("input#background").addEventListener("change", (e) => {
+  background = e.target.value;
+});
+
 canvas.addEventListener("mousedown", (e) => {
+  ctx.beginPath();
   ctx.fillStyle = foreground;
   ctx.strokeStyle = foreground;
   const mode = new FormData(form).get("mode");
@@ -46,14 +55,14 @@ canvas.addEventListener("mousemove", (e) => {
     case "roundBrush":
       if (!pressed) return;
       ctx.beginPath();
-      ctx.ellipse(e.offsetX, e.offsetY, 5,5,Math.PI / 4, 0, 2 * Math.PI);
+      ctx.ellipse(e.offsetX, e.offsetY, 5, 5, Math.PI / 4, 0, 2 * Math.PI);
       ctx.fill();
       ctx.closePath();
       break;
     case "eraser":
       if (!pressed) return;
       ctx.beginPath();
-      ctx.ellipse(e.offsetX, e.offsetY, 5,5,Math.PI / 4, 0, 2 * Math.PI);
+      ctx.ellipse(e.offsetX, e.offsetY, 5, 5, Math.PI / 4, 0, 2 * Math.PI);
       ctx.fill();
       ctx.closePath();
       break;
@@ -61,6 +70,7 @@ canvas.addEventListener("mousemove", (e) => {
 });
 
 canvas.addEventListener("mouseup", (e) => {
+  ctx.closePath();
   const mode = new FormData(form).get("mode");
   switch (mode) {
     case "line":
