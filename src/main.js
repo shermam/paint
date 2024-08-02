@@ -6,6 +6,7 @@ const w = canvas.width;
 const h = canvas.height;
 ctx.lineWidth = 5;
 ctx.imageSmoothingEnabled = false;
+let pressed = false;
 
 canvas.addEventListener("mousedown", (e) => {
   const mode = new FormData(form).get("mode");
@@ -16,6 +17,21 @@ canvas.addEventListener("mousedown", (e) => {
     case "bucket":
       paintBucket(e.offsetX, e.offsetY);
       break;
+    case "brush":
+      ctx.moveTo(e.offsetX, e.offsetY);
+      pressed = true;
+      break;
+  }
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  const mode = new FormData(form).get("mode");
+  switch (mode) {
+    case "brush":
+      if (!pressed) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      break;
   }
 });
 
@@ -25,6 +41,9 @@ canvas.addEventListener("mouseup", (e) => {
     case "line":
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
+      break;
+    case "brush":
+      pressed = false;
       break;
   }
 });
