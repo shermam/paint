@@ -21,6 +21,9 @@ canvas.addEventListener("mousedown", (e) => {
       ctx.moveTo(e.offsetX, e.offsetY);
       pressed = true;
       break;
+    case "roundBrush":
+      pressed = true;
+      break;
   }
 });
 
@@ -31,6 +34,13 @@ canvas.addEventListener("mousemove", (e) => {
       if (!pressed) return;
       ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
+      break;
+    case "roundBrush":
+      if (!pressed) return;
+      ctx.beginPath();
+      ctx.ellipse(e.offsetX, e.offsetY, 5,5,Math.PI / 4, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.closePath();
       break;
   }
 });
@@ -43,6 +53,9 @@ canvas.addEventListener("mouseup", (e) => {
       ctx.stroke();
       break;
     case "brush":
+      pressed = false;
+      break;
+    case "roundBrush":
       pressed = false;
       break;
   }
