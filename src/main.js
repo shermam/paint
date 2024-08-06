@@ -28,7 +28,8 @@ canvas.addEventListener("mousedown", (e) => {
       ctx.moveTo(e.offsetX, e.offsetY);
       break;
     case "bucket":
-      paintBucket(e.offsetX, e.offsetY);
+      const bucketColors = getForegroundRGB(foreground);
+      paintBucket(e.offsetX, e.offsetY, bucketColors);
       break;
     case "brush":
       ctx.moveTo(e.offsetX, e.offsetY);
@@ -90,7 +91,16 @@ canvas.addEventListener("mouseup", (e) => {
   }
 });
 
-async function paintBucket(x, y) {
+function getForegroundRGB(foreground) {
+  const colors = [];
+  foreground = foreground.replace("#", "");
+  colors[0] = parseInt(foreground.substring(0, 2), 16);
+  colors[1] = parseInt(foreground.substring(2, 4), 16);
+  colors[2] = parseInt(foreground.substring(4), 16);
+  return colors;
+}
+
+async function paintBucket(x, y, colors) {
   const imageData = ctx.getImageData(0, 0, w, h);
   const index = toIndex(x, y);
   const initialValue = {
@@ -110,9 +120,9 @@ async function paintBucket(x, y) {
 
     // Setting the color to red
     // TODO: Change to be dinamic
-    imageData.data[index + 0] = 255;
-    imageData.data[index + 1] = 0;
-    imageData.data[index + 2] = 0;
+    imageData.data[index + 0] = colors[0];
+    imageData.data[index + 1] = colors[1];
+    imageData.data[index + 2] = colors[2];
     imageData.data[index + 3] = 255;
 
     const neighbors = [
