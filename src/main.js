@@ -7,8 +7,8 @@ const h = canvas.height;
 ctx.lineWidth = 5;
 ctx.imageSmoothingEnabled = false;
 let pressed = false;
-let foreground = "black";
-let background = "white";
+let foreground = "#000000";
+let background = "#FFFFFF";
 
 document.querySelector("input#foreground").addEventListener("change", (e) => {
   foreground = e.target.value;
